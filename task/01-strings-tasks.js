@@ -145,7 +145,7 @@ function removeFirstOccurrences(str, value) {
  *   '<a>' => 'a'
  */
 function unbracketTag(str) {
-    throw new Error('Not implemented');
+    return str.replace(/<|>/g, '');
 }
 
 
@@ -160,7 +160,7 @@ function unbracketTag(str) {
  *  'abcdefghijklmnopqrstuvwxyz' => 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
  */
 function convertToUpperCase(str) {
-    throw new Error('Not implemented');
+    return str.toUpperCase();
 }
 
 /**
@@ -174,7 +174,7 @@ function convertToUpperCase(str) {
  *   'info@gmail.com' => ['info@gmail.com']
  */
 function extractEmails(str) {
-    throw new Error('Not implemented');
+    return str.split(';')
 }
 
 /**
@@ -201,7 +201,13 @@ function extractEmails(str) {
  *
  */
 function getRectangleString(width, height) {
-    throw new Error('Not implemented');
+        let horizontalLine = '─'.repeat(width - 2);
+        let space = ' '.repeat(width - 2);
+        let topLine = '┌' + '─'.repeat(width - 2) + '┐\n';
+        let middle = ('│' + ' '.repeat(width - 2) + '│\n').repeat(height - 2);
+        let bottomLine = '└' + '─'.repeat(width - 2) + '┘\n';
+
+    return topLine + middle + bottomLine;
 }
 
 
@@ -221,8 +227,20 @@ function getRectangleString(width, height) {
  *
  */
 function encodeToRot13(str) {
-    throw new Error('Not implemented');
+    const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    const encodedAlphabet = 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm';
+    let arrayStr = str.split('');
+
+    for (let i = 0; i < arrayStr.length; i++) {
+        let test = arrayStr[i];
+        if (alphabet.includes(arrayStr[i])) {
+            arrayStr[i] = encodedAlphabet[alphabet.indexOf(arrayStr[i])];
+        }
+    }
+
+    return arrayStr.join('');
 }
+
 
 /**
  * Returns true if the value is string; otherwise false.
