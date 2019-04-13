@@ -172,9 +172,10 @@ function doRectanglesOverlap(rect1, rect2) {
  *   
  */
 function isInsideCircle(circle, point) {
-    throw new Error('Not implemented');
+    return Math.sqrt((point.x - circle.center.x) * (point.x - circle.center.x) + (point.y - circle.center.y) * (point.y - circle.center.y)) < circle.radius;
 }
-
+console.log(isInsideCircle({ "center": { "x": 5, "y": 5 }, "radius": 6 },
+    { "x": 0, "y": 0 }));
 
 /**
  * Returns the first non repeated char in the specified strings otherwise returns null.
