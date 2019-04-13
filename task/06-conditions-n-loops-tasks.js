@@ -30,9 +30,20 @@
  *
  */
 function getFizzBuzz(num) {
-    throw new Error('Not implemented');
+    if (num % 3 === 0 && num % 5 === 0) {
+        return 'FizzBuzz';
+    } else if (num % 3 === 0) {
+        // Is the number a multiple of 3?
+        return 'Fizz';
+    } else if (num % 5 === 0) {
+        return 'Buzz';
+    } else {
+        return num;
+    }
 }
 
+
+//console.log(getFizzBuzz(5));
 
 /**
  * Returns the factorial of the specified integer n.
@@ -46,9 +57,13 @@ function getFizzBuzz(num) {
  *   10 => 3628800
  */
 function getFactorial(n) {
-    throw new Error('Not implemented');
+    if (n === 1) {
+        return 1;
+    }
+    else {
+        return n * getFactorial(n - 1);
+    }
 }
-
 
 /**
  * Returns the sum of integer numbers between n1 and n2 (inclusive).
@@ -63,7 +78,11 @@ function getFactorial(n) {
  *   -1,1  =>  0  ( = -1 + 0 + 1 )
  */
 function getSumBetweenNumbers(n1, n2) {
-    throw new Error('Not implemented');
+    let result = 0;
+    for (let i = n1; i < n2 + 1; i++) {
+        result += i;
+    }
+    return result;
 }
 
 
@@ -82,9 +101,8 @@ function getSumBetweenNumbers(n1, n2) {
  *   10,10,10 =>  true
  */
 function isTriangle(a,b,c) {
-    throw new Error('Not implemented');
+    return a + b > c && a + c > b && c + b > a;
 }
-
 
 /**
  * Returns true, if two specified axis-aligned rectangles overlap, otherwise false.
@@ -119,7 +137,11 @@ function isTriangle(a,b,c) {
  *  
  */
 function doRectanglesOverlap(rect1, rect2) {
-    throw new Error('Not implemented');
+    let x1 = Math.max(rect1.left, rect2.left);
+    let x2 = Math.min(rect1.left + rect1.width, rect2.left + rect2.width);
+    let y1 = Math.max(rect1.top, rect2.top);
+    let y2 = Math.min(rect1.top + rect1.height, rect2.top + rect2.height);
+    return x1 < x2 && y1 < y2;
 }
 
 
