@@ -219,7 +219,45 @@ function findFirstSingleChar(str) {
  *
  */
 function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
-    throw new Error('Not implemented');
+    let res = `${a}, ${b}`;
+
+    if (a > b) res = `${b}, ${a}`;
+
+    if (isStartIncluded && isEndIncluded) {
+        if (a > b) {
+            res = `[${b}, ${a}]`
+        } else {
+            res = `[${a}, ${b}]`;
+        }
+    };
+    if (isStartIncluded && !isEndIncluded) {
+        if (a > b) {
+            res = `[${b}, ${a})`
+        } else {
+            res = `[${a}, ${b})`;
+        }
+
+    };
+
+    if (!isStartIncluded && isEndIncluded) {
+        if (a > b) {
+            res = `(${b}, ${a}]`
+        } else {
+            res = `(${a}, ${b}]`;
+        }
+
+    };
+
+    if (!isStartIncluded && !isEndIncluded) {
+        if (a > b) {
+            res = `(${b}, ${a})`
+        } else {
+            res = `(${a}, ${b})`;
+        }
+
+    };
+
+    return res;
 }
 
 
@@ -486,14 +524,24 @@ function toNaryString(num, n) {
  *
  * @example:
  *   ['/web/images/image1.png', '/web/images/image2.png']  => '/web/images/'
- *   ['/web/assets/style.css', '/web/scripts/app.js',  'home/setting.conf'] => ''
+ *     => ''
  *   ['/web/assets/style.css', '/.bin/mocha',  '/read.me'] => '/'
  *   ['/web/favicon.ico', '/web-scripts/dump', '/webalizer/logs'] => '/'
  */
 function getCommonDirectoryPath(pathes) {
-    throw new Error('Not implemented');
-}
+    var common = "";
+    var split = pathes.map(v => v.split("/"));
 
+    for (var i = 0; i < split[0].length; i++) {
+        if (split.every(v => v[i] === split[0][i])) {
+            common += split[0][i] + "/";
+        }else { 
+            break; 
+        }
+    }
+
+    return common;
+}
 
 /**
  * Returns the product of two specified matrixes.
@@ -564,9 +612,35 @@ function getMatrixProduct(m1, m2) {
  *
  */
 function evaluateTicTacToePosition(position) {
-    throw new Error('Not implemented');
+    // Horizontal
+    if ((position[0][0] == position[0][1] && position[0][1] == position[0][2]) && position[0][0] != undefined) {
+        return position[0][0];
+    }
+    if ((position[1][0] == position[1][1] && position[1][1] == position[1][2]) && position[1][0] != undefined) {
+        return position[1][0];
+    }
+    if ((position[2][0] == position[2][1] && position[2][1]== position[2][2]) && position[2][0] != undefined) {
+        return position[2][0];
+    }
+    // Vertical
+    if ((position[0][0] == position[1][0] && position[1][0]== position[2][0]) && position[0][0] != undefined) {
+        return position[0][0];
+    }
+    if ((position[0][1] == position[1][1] && position[1][1] == position[2][1]) && position[0][1] != undefined) {
+        return position[0][1];
+    }
+    if ((position[0][2] == position[1][2] && position[1][2] == position[2][2]) && position[0][2] != undefined) {
+        return position[0][2];
+    }
+    // Diagonal
+    if ((position[0][0] == position[1][1] && position[1][1] == position[2][2]) && position[0][0] != undefined) {
+        return position[0][0];
+    }
+    if ((position[0][2] == position[1][1] && position[1][1] == position[2][0]) && position[0][2] != undefined) {
+        return position[0][2];
+    } 
+    return undefined;
 }
-
 
 module.exports = {
     getFizzBuzz: getFizzBuzz,
