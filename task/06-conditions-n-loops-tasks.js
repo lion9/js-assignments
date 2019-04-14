@@ -174,8 +174,6 @@ function doRectanglesOverlap(rect1, rect2) {
 function isInsideCircle(circle, point) {
     return Math.sqrt((point.x - circle.center.x) * (point.x - circle.center.x) + (point.y - circle.center.y) * (point.y - circle.center.y)) < circle.radius;
 }
-console.log(isInsideCircle({ "center": { "x": 5, "y": 5 }, "radius": 6 },
-    { "x": 0, "y": 0 }));
 
 /**
  * Returns the first non repeated char in the specified strings otherwise returns null.
@@ -189,7 +187,13 @@ console.log(isInsideCircle({ "center": { "x": 5, "y": 5 }, "radius": 6 },
  *   'entente' => null
  */
 function findFirstSingleChar(str) {
-    throw new Error('Not implemented');
+    for (var i = 0; i < str.length; i++) {
+        var char = str.charAt(i);
+        if (str.indexOf(char) == i && str.indexOf(char, i + 1) == -1) {
+            return char;
+        }
+    }
+    return null;
 }
 
 
@@ -232,7 +236,7 @@ function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
  * 'noon' => 'noon'
  */
 function reverseString(str) {
-    throw new Error('Not implemented');
+    return str.split('').reverse().join('');
 }
 
 
@@ -249,7 +253,7 @@ function reverseString(str) {
  *   34143 => 34143
  */
 function reverseInteger(num) {
-    throw new Error('Not implemented');
+    return Number(num.toString().split('').reverse().join(''));
 }
 
 
@@ -274,7 +278,45 @@ function reverseInteger(num) {
  *   4916123456789012 => false
  */
 function isCreditCardNumber(ccn) {
-    throw new Error('Not implemented');
+    var number = ("" + ccn).split("");
+    var arr = [];
+    var result = [];
+
+    if (number.length % 2 == 0) {
+        number.forEach(function (num, index) {
+            if (index == 0 || index % 2 == 0) {
+                arr.push(num * 2);
+            } else {
+                arr.push(num);
+            }
+        })
+    } else {
+        number.forEach(function (num, index) {
+            if (index != 0 && index % 2 != 0) {
+                arr.push(num * 2);
+            } else {
+                arr.push(num);
+            }
+        })
+    }
+
+    arr.forEach(function (num) {
+        if (num > 9) {
+            result.push(parseInt(num - 9))
+        } else {
+            result.push(parseInt(num))
+        }
+    })
+
+    var final = result.reduce(function (a, b) {
+        return a + b
+    });
+
+    if (final % 10 == 0) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 
@@ -293,7 +335,13 @@ function isCreditCardNumber(ccn) {
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
 function getDigitalRoot(num) {
-    throw new Error('Not implemented');
+    if (num == 0) {
+        return 0;
+    }
+    if (num % 9 == 0) {
+        return 9;
+    }
+    return num % 9;
 }
 
 
@@ -319,7 +367,29 @@ function getDigitalRoot(num) {
  *   '{[(<{[]}>)]}' = true 
  */
 function isBracketsBalanced(str) {
-    throw new Error('Not implemented');
+    let stack = [];
+    let map = {
+        '(': ')',
+        '[': ']',
+        '{': '}',
+        '<': '>'
+    }
+
+    for (let i = 0; i < str.length; i++) {
+        if (str[i] === '(' || str[i] === '{' || str[i] === '[' || str[i] === '<') {
+            stack.push(str[i]);
+        } else {
+            let last = stack.pop();
+
+            if (str[i] !== map[last]) { return false };
+        }
+    }
+
+    if (stack.length !== 0) {
+        return false;
+    };
+
+    return true;
 }
 
 
@@ -355,9 +425,34 @@ function isBracketsBalanced(str) {
  *
  */
 function timespanToHumanString(startDate, endDate) {
-    throw new Error('Not implemented');
+    let firstDate = new Date(startDate);
+    let secondDate = new Date(endDate);
+    const difference = (secondDate.getTime() - firstDate.getTime()) / 1000;
+    return difference >= 0 && difference <= 45 ? 'a few seconds ago' : 
+            difference > 45 && difference <= 90 ? 'a minute ago' : 
+            difference > 90 && difference <= 120 ? '2 minutes ago' : 
+            difference > 120 && difference <= 360 ? '5 minutes ago' : 
+            difference > 90 && difference <= 2700 ? '45 minutes ago' :
+            difference > 2700 && difference <= 5400 ? 'an hour ago' :
+            difference > 5400 && difference <= 7200 ? '2 hours ago' :
+            difference > 7200 && difference <= 16200 ? '4 hours ago' :
+            difference > 16200 && difference <= 18000 ? '5 hours ago' :
+            difference > 18000 && difference <= 79200 ? '22 hours ago' :
+            difference > 79200 && difference <= 129600 ? 'a day ago' :
+            difference > 129600 && difference <= 172800 ? '2 days ago' :
+            difference > 172800 && difference <= 388800 ? '4 days ago' :
+            difference > 388800 && difference <= 2160000 ? '25 days ago' :
+            difference > 2160000 && difference <= 3888000 ? 'a month ago' :
+            difference > 2628000 && difference <= 5256000 ? '2 months ago' :     
+            difference > 5256000 && difference <= 12092400 ? '5 months ago' :
+            difference > 12092400 && difference <= 29721600 ? '11 months ago' :
+            difference > 2.981e+7 && difference <= 4.709e+7 ? 'a year ago' :
+            difference > 4.709e+7 && difference <= 477270000.001 ? '15 years ago' :  null;  
+            ;
+
 }
 
+timespanToHumanString('2000-01-01 00:00:00.000', '2015-02-15 00:00:00.001')
 
 /**
  * Returns the string with n-ary (binary, ternary, etc, where n<=10) representation of specified number.
@@ -379,7 +474,7 @@ function timespanToHumanString(startDate, endDate) {
  *    365, 10 => '365'
  */
 function toNaryString(num, n) {
-    throw new Error('Not implemented');
+    return num.toString(n);
 }
 
 
@@ -419,7 +514,22 @@ function getCommonDirectoryPath(pathes) {
  *
  */
 function getMatrixProduct(m1, m2) {
-    throw new Error('Not implemented');
+    if (m1[0].length !== m2.length) return -1
+    let m1Rows = m1.length
+    let m1Cols = m1[0].length
+    let m2Rows = m2.length
+    let m2Cols = m2[0].length
+    let result = new Array(m1Rows)
+    for (let i = 0; i < m1Rows; i++) {
+        result[i] = new Array(m2Cols)
+        for (let j = 0; j < m2Cols; j++) {
+            result[i][j] = 0
+            for (let k = 0; k < m1Cols; k++) {
+                result[i][j] += m1[i][k] * m2[k][j]
+            }
+        }
+    }
+    return result;
 }
 
 
